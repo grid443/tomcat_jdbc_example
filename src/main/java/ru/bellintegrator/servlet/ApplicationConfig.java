@@ -17,6 +17,8 @@ import java.util.Map;
 
 public class ApplicationConfig {
 
+    public static final String DEFAULT_CHARSET = "UTF-8";
+
     public static final String CONTEXT_NAME = "java:/comp/env";
     public static final String H2_DATA_SOURCE_NAME = "jdbc/h2DataSource";
 
