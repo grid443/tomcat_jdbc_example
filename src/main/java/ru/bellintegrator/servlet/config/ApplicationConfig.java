@@ -1,4 +1,4 @@
-package ru.bellintegrator.servlet;
+package ru.bellintegrator.servlet.config;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.core.StandardContext;
@@ -7,8 +7,13 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory;
 import org.apache.tomcat.util.descriptor.web.ContextResource;
+import org.apache.tomcat.util.descriptor.web.FilterDef;
+import org.apache.tomcat.util.descriptor.web.FilterMap;
 import org.h2.Driver;
+import ru.bellintegrator.servlet.person.PersonServlet;
+import ru.bellintegrator.servlet.ping.PingServlet;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.http.HttpServlet;
 import javax.sql.DataSource;
 import java.nio.file.Paths;
@@ -16,8 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ApplicationConfig {
-
-    public static final String DEFAULT_CHARSET = "UTF-8";
 
     public static final String CONTEXT_NAME = "java:/comp/env";
     public static final String H2_DATA_SOURCE_NAME = "jdbc/h2DataSource";
@@ -34,8 +37,9 @@ public class ApplicationConfig {
         Tomcat tomcat = buildServer(port);
         StandardContext context = buildContext(tomcat);
 
-        registerServlet(context, new PersonsServlet(), "persons", "/persons");
+        registerServlet(context, new PersonServlet(), "person", "/person");
         registerServlet(context, new PingServlet(), "ping", "/ping");
+        registerFilter(context, new DefaultCharsetFilter(), "defaultCharsetFilter", "/*");
 
         ContextResource resource = buildResource(
                 H2_DATA_SOURCE_NAME,
@@ -43,9 +47,7 @@ public class ApplicationConfig {
                 h2DatasourceProperties()
         );
 
-
         context.getNamingResources().addResource(resource);
-
         context.addServletContainerInitializer(new DataBaseInitializer(DATA_BASE_SCHEMA), null);
 
         tomcat.start();
@@ -69,6 +71,25 @@ public class ApplicationConfig {
     private static void registerServlet(Context context, HttpServlet servlet, String servletName, String urlPattern) {
         Tomcat.addServlet(context, servletName, servlet);
         context.addServletMappingDecoded(urlPattern, servletName);
+    }
+
+    private static void registerFilter(
+            StandardContext context,
+            DefaultCharsetFilter filter,
+            String filterName,
+            String urlPattern
+    ) {
+        FilterDef filterDef = new FilterDef();
+        filterDef.setFilter(filter);
+        filterDef.setFilterName(filterName);
+
+        FilterMap filterMap = new FilterMap();
+        filterMap.setFilterName(filterName);
+        filterMap.setDispatcher(DispatcherType.REQUEST.name());
+        filterMap.addURLPattern(urlPattern);
+
+        context.addFilterDef(filterDef);
+        context.addFilterMap(filterMap);
     }
 
     private static Map<String, Object> h2DatasourceProperties() {

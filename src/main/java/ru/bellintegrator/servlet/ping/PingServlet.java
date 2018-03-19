@@ -1,4 +1,4 @@
-package ru.bellintegrator.servlet;
+package ru.bellintegrator.servlet.ping;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

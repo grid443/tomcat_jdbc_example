@@ -84,7 +84,7 @@
                     <finalName>servlet-app-${project.version}</finalName>
                     <archive>
                         <manifest>
-                            <mainClass>ru.bellintegrator.servlet.ApplicationConfig</mainClass>
+                            <mainClass>ru.bellintegrator.servlet.config.ApplicationConfig</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

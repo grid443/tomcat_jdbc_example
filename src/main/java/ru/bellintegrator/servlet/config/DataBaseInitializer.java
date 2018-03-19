@@ -1,4 +1,4 @@
-package ru.bellintegrator.servlet;
+package ru.bellintegrator.servlet.config;
 
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -43,9 +43,12 @@ public class DataBaseInitializer implements ServletContainerInitializer {
         StringBuilder statementsBuilder = new StringBuilder();
         Set<String> sqlStatements = new HashSet<>();
 
+        log.info("reading file " + schemaFileLocation + " start");
+
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(
-                        getClass().getClassLoader().getResourceAsStream(schemaFileLocation)
+                        getClass().getClassLoader().getResourceAsStream(schemaFileLocation),
+                        DefaultCharsetFilter.DEFAULT_CHARSET
                 )
         )) {
             reader.lines().forEach(
@@ -65,6 +68,8 @@ public class DataBaseInitializer implements ServletContainerInitializer {
         if (statementsBuilder.length() > 0) {
             buildLine(statementsBuilder, sqlStatements);
         }
+
+        log.info("reading file " + schemaFileLocation + " success");
 
         return sqlStatements;
     }
