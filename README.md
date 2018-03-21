@@ -32,17 +32,17 @@ java -jar servlet-app-1.0-SNAPSHOT-jar-with-dependencies.jar 8989
 Check application
 
 ```
-curl http://localhost:8080/ping
+curl --request GET http://localhost:8080/ping
 ```
 
 Load all objects from database:
 
 ```
-curl http://localhost:8080/person
+curl --request GET http://localhost:8080/person
 ```
 
 Add new object to database:
 
 ```
-curl --header "Content-Type: application/json" --data '{"firstName":"Jonh","middleName":"R","lastName":"Smith","age":"27"}' http://localhost:8080/person
+curl --header "Content-Type: application/json" --request POST --data '{"firstName":"Jonh","middleName":"R","lastName":"Smith","age":"27"}' http://localhost:8080/person
 ```
