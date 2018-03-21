@@ -10,10 +10,12 @@ import org.apache.tomcat.util.descriptor.web.ContextResource;
 import org.apache.tomcat.util.descriptor.web.FilterDef;
 import org.apache.tomcat.util.descriptor.web.FilterMap;
 import org.h2.Driver;
+import ru.bellintegrator.servlet.exceptions.ExceptionHandlerFiler;
 import ru.bellintegrator.servlet.person.PersonServlet;
 import ru.bellintegrator.servlet.ping.PingServlet;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
 import javax.servlet.http.HttpServlet;
 import javax.sql.DataSource;
 import java.nio.file.Paths;
@@ -40,6 +42,7 @@ public class ApplicationConfig {
         registerServlet(context, new PersonServlet(), "person", "/person");
         registerServlet(context, new PingServlet(), "ping", "/ping");
         registerFilter(context, new DefaultCharsetFilter(), "defaultCharsetFilter", "/*");
+        registerFilter(context, new ExceptionHandlerFiler(), "exceptionHandlerFilter", "/*");
 
         ContextResource resource = buildResource(
                 H2_DATA_SOURCE_NAME,
@@ -75,7 +78,7 @@ public class ApplicationConfig {
 
     private static void registerFilter(
             StandardContext context,
-            DefaultCharsetFilter filter,
+            Filter filter,
             String filterName,
             String urlPattern
     ) {

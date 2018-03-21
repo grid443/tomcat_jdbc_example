@@ -34,3 +34,15 @@ Check application
 ```
 curl http://localhost:8080/ping
 ```
+
+Load all objects from database:
+
+```
+curl http://localhost:8080/person
+```
+
+Add new object to database:
+
+```
+curl --data '{"firstName":"Jonh","middleName":"R","lastName":"Smith","age":"27"}' http://localhost:8080/person
+```

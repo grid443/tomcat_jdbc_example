@@ -58,6 +58,7 @@ public class PersonDaoImpl implements PersonDao {
             setOptionalString(statement, 2, personView.middleName);
             statement.setString(3, personView.lastName);
             statement.setLong(4, personView.age);
+            statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException("save person error", e);
         }
