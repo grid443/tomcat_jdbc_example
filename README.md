@@ -44,5 +44,5 @@ curl http://localhost:8080/person
 Add new object to database:
 
 ```
-curl --data '{"firstName":"Jonh","middleName":"R","lastName":"Smith","age":"27"}' http://localhost:8080/person
+curl --header "Content-Type: application/json" --data '{"firstName":"Jonh","middleName":"R","lastName":"Smith","age":"27"}' http://localhost:8080/person
 ```
