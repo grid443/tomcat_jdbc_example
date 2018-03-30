@@ -46,3 +46,9 @@ Add new object to database:
 ```
 curl --request POST --header "Content-Type: application/json" --data '{"firstName":"Jonh","middleName":"R","lastName":"Smith","age":"27"}' http://localhost:8080/person
 ```
+
+Add list of objects to database:
+
+```
+curl --request POST --header "Content-Type: application/json" --data '[{"firstName":"Jonh1","middleName":"R1","lastName":"Smith1","age":"25"},{"firstName":"Jonh2","middleName":"R2","lastName":"Smith2","age":"35"}]' http://localhost:8080/persons
+```

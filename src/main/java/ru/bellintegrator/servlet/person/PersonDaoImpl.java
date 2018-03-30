@@ -45,7 +45,7 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public void add(PersonView personView) {
         if (personView == null) {
-            throw new IllegalArgumentException("missed required parameter person");
+            throw new IllegalArgumentException("missed required parameter 'personView'");
         }
 
         personView.validate();
@@ -54,14 +54,41 @@ public class PersonDaoImpl implements PersonDao {
                 Connection conn = dataSource.getConnection();
                 PreparedStatement statement = conn.prepareStatement(ADD_PERSON_QUERY)
         ) {
-            statement.setString(1, personView.firstName);
-            setOptionalString(statement, 2, personView.middleName);
-            statement.setString(3, personView.lastName);
-            statement.setLong(4, personView.age);
+            setPersonParameters(statement, personView);
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException("save person error", e);
         }
+    }
+
+    @Override
+    public void addAll(List<PersonView> personViews) {
+        if (personViews == null || personViews.isEmpty()) {
+            throw new IllegalArgumentException("missed required parameter 'personViews'");
+        }
+
+        try (
+                Connection conn = dataSource.getConnection();
+                PreparedStatement statement = conn.prepareStatement(ADD_PERSON_QUERY)
+        ) {
+            for (PersonView personView : personViews) {
+                personView.validate();
+                setPersonParameters(statement, personView);
+                statement.addBatch();
+            }
+
+            statement.executeBatch();
+        } catch (SQLException e) {
+            throw new RuntimeException("save persons error", e);
+        }
+
+    }
+
+    private void setPersonParameters(PreparedStatement statement, PersonView personView) throws SQLException {
+        statement.setString(1, personView.firstName);
+        setOptionalString(statement, 2, personView.middleName);
+        statement.setString(3, personView.lastName);
+        statement.setLong(4, personView.age);
     }
 
     private List<PersonView> buildPersonViews(ResultSet resultSet) throws SQLException {

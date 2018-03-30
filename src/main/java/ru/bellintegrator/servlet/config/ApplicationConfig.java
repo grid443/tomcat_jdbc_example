@@ -12,6 +12,7 @@ import org.apache.tomcat.util.descriptor.web.FilterMap;
 import org.h2.Driver;
 import ru.bellintegrator.servlet.exceptions.ExceptionHandlerFiler;
 import ru.bellintegrator.servlet.person.PersonServlet;
+import ru.bellintegrator.servlet.person.PersonsListServlet;
 import ru.bellintegrator.servlet.ping.PingServlet;
 
 import javax.servlet.DispatcherType;
@@ -40,6 +41,7 @@ public class ApplicationConfig {
         StandardContext context = buildContext(tomcat);
 
         registerServlet(context, new PersonServlet(), "person", "/person");
+        registerServlet(context, new PersonsListServlet(), "persons", "/persons");
         registerServlet(context, new PingServlet(), "ping", "/ping");
         registerFilter(context, new DefaultCharsetFilter(), "defaultCharsetFilter", "/*");
         registerFilter(context, new ExceptionHandlerFiler(), "exceptionHandlerFilter", "/*");

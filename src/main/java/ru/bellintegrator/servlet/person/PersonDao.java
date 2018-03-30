@@ -20,4 +20,11 @@ public interface PersonDao {
      * @param personView new person data
      */
     void add(PersonView personView);
+
+    /**
+     * Add persons list
+     *
+     * @param persons list of person data
+     */
+    void addAll(List<PersonView> persons);
 }
