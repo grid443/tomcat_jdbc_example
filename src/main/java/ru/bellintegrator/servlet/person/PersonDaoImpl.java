@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class PersonDaoImpl implements PersonDao {
     private static final String LOAD_ALL_QUERY = "SELECT id, first_name, middle_name, last_name, age FROM person";
-    private static final String ADD_PERSOM_QUERY = "INSERT INTO person " +
+    private static final String ADD_PERSON_QUERY = "INSERT INTO person " +
             "(first_name, middle_name, last_name, age) " +
             "VALUES " +
             "(?, ?, ?, ?)";
@@ -52,7 +52,7 @@ public class PersonDaoImpl implements PersonDao {
 
         try (
                 Connection conn = dataSource.getConnection();
-                PreparedStatement statement = conn.prepareStatement(ADD_PERSOM_QUERY)
+                PreparedStatement statement = conn.prepareStatement(ADD_PERSON_QUERY)
         ) {
             statement.setString(1, personView.firstName);
             setOptionalString(statement, 2, personView.middleName);
