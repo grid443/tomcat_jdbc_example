@@ -96,10 +96,16 @@ public class DataBaseInitializer implements ServletContainerInitializer {
         DataSource dataSource = dataSource();
 
         try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement()) {
-            for (String sqlStatement : sqlStatements) {
-                statement.execute(sqlStatement);
+            try {
+                connection.setAutoCommit(false);
+                for (String sqlStatement : sqlStatements) {
+                    statement.execute(sqlStatement);
+                }
+                connection.commit();
+            } catch (Exception e) {
+                connection.rollback();
+                throw e;
             }
-
         }
     }
 }
