@@ -57,7 +57,7 @@ public class ApplicationConfig {
 
         tomcat.start();
 
-        log.info("Application started: http://" + tomcat.getServer().getAddress() + ":" + port);
+        log.info(String.format("Application started: http://%s:%s", tomcat.getServer().getAddress(), port));
 
         tomcat.getServer().await();
     }

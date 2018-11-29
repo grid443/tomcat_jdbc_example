@@ -24,10 +24,10 @@ public class PersonsListServlet extends BaseServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         StringBuffer requestUrl = request.getRequestURL();
-        log.info("request: " + requestUrl + ";start");
+        log.info(String.format("request:%s;start", requestUrl));
 
         String requestBody = readBody(request);
-        log.debug("request:" + requestUrl + ";body:" + requestBody);
+        log.debug(String.format("request:%s;body:%s", requestUrl, requestBody));
 
         ObjectMapper mapper = new ObjectMapper();
         List<PersonView> persons = mapper.readValue(
@@ -36,11 +36,11 @@ public class PersonsListServlet extends BaseServlet {
                 }
         );
 
-        log.info("request: " + requestUrl + ";mapping request body success");
+        log.info(String.format("request:%s;mapping request body success", requestUrl));
 
         PersonDao dao = new PersonDaoImpl(dataSource());
         dao.addAll(persons);
 
-        log.info("request: " + requestUrl + ";success");
+        log.info(String.format("request:%s;success", requestUrl));
     }
 }

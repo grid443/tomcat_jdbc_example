@@ -22,16 +22,16 @@ public class PersonServlet extends BaseServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         StringBuffer requestUrl = request.getRequestURL();
-        log.info("request: " + requestUrl + ";start");
+        log.info(String.format("request:%s;start", requestUrl));
 
         PersonDao dao = new PersonDaoImpl(dataSource());
         List<PersonView> persons = dao.all();
 
-        log.info("request: " + requestUrl + ";persons loaded count:" + persons.size());
+        log.info(String.format("request:%s;persons loaded count:%s", requestUrl, persons.size()));
 
         writeResponse(response, persons);
 
-        log.info("request: " + requestUrl + ";success");
+        log.info(String.format("request:%s;success", requestUrl));
     }
 
     /**
@@ -44,19 +44,19 @@ public class PersonServlet extends BaseServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         StringBuffer requestUrl = request.getRequestURL();
-        log.info("request: " + requestUrl + ";start");
+        log.info(String.format("request:%s;start", requestUrl));
 
         String requestBody = readBody(request);
-        log.debug("request:" + requestUrl + ";body:" + requestBody);
+        log.debug(String.format("request:%s;body:%s", requestUrl, requestBody));
 
         ObjectMapper mapper = new ObjectMapper();
         PersonView person = mapper.readValue(requestBody, PersonView.class);
 
-        log.info("request: " + requestUrl + ";mapping request body success");
+        log.info(String.format("request:%s;mapping request body success", requestUrl));
 
         PersonDao dao = new PersonDaoImpl(dataSource());
         dao.add(person);
 
-        log.info("request: " + requestUrl + ";success");
+        log.info(String.format("request:%s;success", requestUrl));
     }
 }

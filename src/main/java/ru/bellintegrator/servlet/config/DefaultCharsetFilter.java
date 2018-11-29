@@ -17,7 +17,7 @@ public class DefaultCharsetFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-
+        //do nothing
     }
 
     @Override
@@ -36,6 +36,6 @@ public class DefaultCharsetFilter implements Filter {
 
     @Override
     public void destroy() {
-
+        //do nothing
     }
 }

@@ -27,13 +27,13 @@ public class DataBaseInitializer implements ServletContainerInitializer {
 
     @Override
     public void onStartup(Set<Class<?>> c, ServletContext ctx) {
-        log.info("DataBase schema initialization start. " + schemaFileLocation);
+        log.info(String.format("DataBase schema initialization start. %s", schemaFileLocation));
 
         try {
             Set<String> sqlStatements = readSqlStatements();
             executeSqlStatements(sqlStatements);
 
-            log.info("Database schema initialized. " + schemaFileLocation);
+            log.info(String.format("Database schema initialized. %s", schemaFileLocation));
         } catch (Exception e) {
             throw new RuntimeException("Database schema initialization error", e);
         }
@@ -43,7 +43,7 @@ public class DataBaseInitializer implements ServletContainerInitializer {
         StringBuilder statementsBuilder = new StringBuilder();
         Set<String> sqlStatements = new HashSet<>();
 
-        log.info("reading file " + schemaFileLocation + " start");
+        log.info(String.format("reading file %s start", schemaFileLocation));
 
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(
@@ -54,7 +54,8 @@ public class DataBaseInitializer implements ServletContainerInitializer {
             reader.lines().forEach(
                     line -> {
                         if (line.isEmpty() && statementsBuilder.length() > 0) {
-                            buildLine(statementsBuilder, sqlStatements);
+                            String sqlStatement = buildSqlStatement(statementsBuilder);
+                            sqlStatements.add(sqlStatement);
                             statementsBuilder.setLength(0);
                             return;
                         }
@@ -66,22 +67,23 @@ public class DataBaseInitializer implements ServletContainerInitializer {
         }
 
         if (statementsBuilder.length() > 0) {
-            buildLine(statementsBuilder, sqlStatements);
+            String sqlStatement = buildSqlStatement(statementsBuilder);
+            sqlStatements.add(sqlStatement);
         }
 
-        log.info("reading file " + schemaFileLocation + " success");
+        log.info(String.format("reading file %s success", schemaFileLocation));
 
         return sqlStatements;
     }
 
-    private void buildLine(StringBuilder statementsBuilder, Set<String> sqlStatements) {
+    private String buildSqlStatement(StringBuilder statementsBuilder) {
         String statement = statementsBuilder.toString().trim();
 
         if (statement.endsWith(";")) {
             statement = statement.substring(0, statement.length() - 1);
         }
 
-        sqlStatements.add(statement);
+        return statement;
     }
 
     private DataSource dataSource() throws Exception {
