@@ -29,6 +29,20 @@ By default server runs on 8080 port. You can specify another port
 java -jar servlet-app-1.0-SNAPSHOT-jar-with-dependencies.jar 8989
 ```
 
+You can check application using [curl](https://curl.haxx.se/)
+
+Ubuntu:
+```
+sudo apt-get update
+sudo apt-get install curl
+curl --version
+```
+Windows:
+
+1. [Download link](https://curl.haxx.se/windows/)
+ 
+2. Add `%CURL_HOME%/bin` to `%PATH%` variable 
+
 Check application availability
 
 ```
