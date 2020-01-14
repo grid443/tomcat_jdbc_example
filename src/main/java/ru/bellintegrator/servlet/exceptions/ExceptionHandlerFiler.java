@@ -19,7 +19,7 @@ public class ExceptionHandlerFiler implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-
+        //do nothing
     }
 
     @Override
@@ -35,15 +35,15 @@ public class ExceptionHandlerFiler implements Filter {
 
     @Override
     public void destroy() {
-
+        //do nothing
     }
 
     private void writeResponse(ServletResponse response, Exception e) throws IOException {
         try (PrintWriter responseWriter = response.getWriter()) {
             ObjectMapper mapper = new ObjectMapper();
-            String errorMessage = (e.getMessage() == null || e.getMessage().isEmpty()) ?
-                    "Internal Server Error" :
-                    e.getMessage();
+            String errorMessage = (e.getMessage() == null || e.getMessage().isEmpty())
+                    ? "Internal Server Error"
+                    : e.getMessage();
             mapper.writeValue(responseWriter, new ErrorView(errorMessage));
         }
     }

@@ -9,6 +9,8 @@ import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -45,25 +47,32 @@ public class DataBaseInitializer implements ServletContainerInitializer {
 
         log.info(String.format("reading file %s start", schemaFileLocation));
 
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(
-                        getClass().getClassLoader().getResourceAsStream(schemaFileLocation),
-                        DefaultCharsetFilter.DEFAULT_CHARSET
-                )
-        )) {
-            reader.lines().forEach(
-                    line -> {
-                        if (line.isEmpty() && statementsBuilder.length() > 0) {
-                            String sqlStatement = buildSqlStatement(statementsBuilder);
-                            sqlStatements.add(sqlStatement);
-                            statementsBuilder.setLength(0);
-                            return;
-                        }
+        try (InputStream sqlSchemaStream = DataBaseInitializer.class.getClassLoader().getResourceAsStream(schemaFileLocation)) {
+            if (sqlSchemaStream == null) {
+                throw new FileNotFoundException("Schema initialization file not found in location: " + schemaFileLocation);
+            }
+            try (
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(
+                                    sqlSchemaStream,
+                                    DefaultCharsetFilter.DEFAULT_CHARSET
+                            )
+                    )
+            ) {
+                reader.lines().forEach(
+                        line -> {
+                            if (line.isEmpty() && statementsBuilder.length() > 0) {
+                                String sqlStatement = buildSqlStatement(statementsBuilder);
+                                sqlStatements.add(sqlStatement);
+                                statementsBuilder.setLength(0);
+                                return;
+                            }
 
-                        statementsBuilder.append(line);
-                        statementsBuilder.append(" ");
-                    }
-            );
+                            statementsBuilder.append(line);
+                            statementsBuilder.append(" ");
+                        }
+                );
+            }
         }
 
         if (statementsBuilder.length() > 0) {

@@ -12,7 +12,7 @@ import java.io.IOException;
  * Filter sets default charset encoding for request and response
  */
 public class DefaultCharsetFilter implements Filter {
-    public static final String DEFAULT_CHARSET = "UTF-8";
+    static final String DEFAULT_CHARSET = "UTF-8";
     private static final String DEFAULT_CONTENT_TYPE = "application/json;charset=utf-8";
 
     @Override

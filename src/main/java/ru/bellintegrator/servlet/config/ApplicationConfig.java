@@ -124,9 +124,9 @@ public class ApplicationConfig {
 
     private static int serverPort(String[] args) {
         if (args == null || args.length < 1) {
-            return Integer.valueOf(DEFAULT_PORT);
+            return Integer.parseInt(DEFAULT_PORT);
         }
 
-        return Integer.valueOf(args[0]);
+        return Integer.parseInt(args[0]);
     }
 }
