@@ -1,13 +1,12 @@
 ## Embedded Tomcat + JDBC example
 
-Build project:
+###Build project
 
 ```
 mvn clean package
 ```
 
-
-Start server
+###Start server
 
 ```
 java -jar target/servlet-app-1.0-SNAPSHOT-jar-with-dependencies.jar
@@ -21,10 +20,31 @@ java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 -jar 
 
 By default server runs on 8080 port. You can specify another port 
 
-
 ```
 java -jar servlet-app-1.0-SNAPSHOT-jar-with-dependencies.jar 8989
 ```
+
+###Docker
+
+Build docker
+
+```
+docker build -t servlet-app:1.0 .
+```
+
+Run docker image
+
+```
+docker run -it -p 8080:8080 --name servlet-app servlet-app:1.0
+```
+
+Run existing docker container
+
+```
+docker container start -ai servlet-app
+```
+
+###Check
 
 You can check application using [curl](https://curl.haxx.se/)
 
