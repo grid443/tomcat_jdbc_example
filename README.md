@@ -26,8 +26,7 @@ java -jar servlet-app-1.0-SNAPSHOT-jar-with-dependencies.jar 8989
 
 ### Docker
 
-Build docker
-The project must be built. Run this commands from the project root directory
+Build docker. The project must be built. Run this commands from the project root directory
 
 ```
 docker build -t servlet-app:1.0 .
