@@ -6,14 +6,11 @@ Build project:
 mvn clean package
 ```
 
-```
-cd target
-```
 
 Start server
 
 ```
-java -jar servlet-app-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar target/servlet-app-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 Start server with debug
