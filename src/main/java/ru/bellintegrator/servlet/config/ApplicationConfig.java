@@ -66,6 +66,7 @@ public class ApplicationConfig {
         Tomcat tomcat = new Tomcat();
         tomcat.enableNaming();
         tomcat.setPort(port);
+        tomcat.getConnector();
         return tomcat;
     }
 
