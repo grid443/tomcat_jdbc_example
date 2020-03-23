@@ -1,12 +1,12 @@
 ## Embedded Tomcat + JDBC example
 
-###Build project
+### Build project
 
 ```
 mvn clean package
 ```
 
-###Start server
+### Start server
 
 ```
 java -jar target/servlet-app-1.0-SNAPSHOT-jar-with-dependencies.jar
@@ -24,7 +24,7 @@ By default server runs on 8080 port. You can specify another port
 java -jar servlet-app-1.0-SNAPSHOT-jar-with-dependencies.jar 8989
 ```
 
-###Docker
+### Docker
 
 Build docker
 
