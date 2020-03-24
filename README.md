@@ -15,7 +15,9 @@ java -jar target/servlet-app-1.0-SNAPSHOT-jar-with-dependencies.jar
 Start server with debug
 
 ```
-java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 -jar servlet-app-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -Xdebug \
+-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 \
+-jar servlet-app-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 By default server runs on 8080 port. You can specify another port 
