@@ -38,6 +38,18 @@ Run docker image
 docker run -it -p 8080:8080 --name servlet-app servlet-app:1.0
 ```
 
+In docker you can run app on the specific port by specifying different published port
+
+```
+docker run -it -p 8989:8080 --name servlet-app servlet-app:1.0
+```
+
+Or you can also pass port as an argument
+
+```
+docker run -it -p 8989:8989 --name servlet-app servlet-app:1.0 8989
+```
+
 Run existing docker container
 
 ```
